@@ -1,230 +1,298 @@
-<!-- plik: index.html (główna strona) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ARUYEQ - Arch Linux, Hyprland and system customisation.">
-    <title>ARUYEQ | Arch Linux</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <style>
-        :root { 
-            --bg-base: #faf9f6; --text-main: #1a1a1a; --text-muted: #555555; 
-            --navy: #2b2b8a; --navy-light: #3a3aa0; --red: #c8102e; 
-            --white: #ffffff; --surface: rgba(255, 255, 255, 0.95); --border-color: #eaeaea; 
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04); --shadow-lg: 0 12px 32px rgba(0,0,0,0.08); 
-            --radius: 12px; --font-main: 'Inter', system-ui, -apple-system, sans-serif; 
-            --transition: all 0.2s ease; 
-        }
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-main); background-color: var(--bg-base); color: var(--text-main); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 2rem 1rem; line-height: 1.5; -webkit-font-smoothing: antialiased; position: relative; overflow-x: hidden; }
-        
-        /* --- JAPOŃSKIE TŁO ANIMOWANE --- */
-        .bg-decor { 
-            position: fixed; inset: 0; z-index: -1; pointer-events: none; 
-            background: radial-gradient(circle at 50% 50%, #ffffff 0%, #f0f0eb 100%); 
-            overflow: hidden;
-        }
-        
-        /* Fale (Seigaiha) */
-        .bg-waves {
-            position: absolute; bottom: -50px; left: -10%; width: 120%; height: 300px;
-            background-image: 
-                radial-gradient(circle at 50% 100%, transparent 25px, rgba(43, 43, 138, 0.05) 26px, transparent 27px) 0 0 / 50px 25px,
-                radial-gradient(circle at 50% 100%, transparent 25px, rgba(200, 16, 46, 0.04) 26px, transparent 27px) 25px 0 / 50px 25px;
-            animation: waveMove 20s linear infinite;
-        }
-        @keyframes waveMove {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50px); }
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>aruyeq. | Official Website</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* Kolory z logo */
+:root{--washi:#fcf9f2;--sumi:#1c1c1c;--indigo:#1a2b4c;--red:#c1121f;--border:#1c1c1c;--muted:#555}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
-        /* Pływające okręgi (Słońce/Księżyc) */
-        .bg-circle { 
-            position: absolute; border-radius: 50%; opacity: 0.6;
-            animation: float 15s ease-in-out infinite alternate;
-        }
-        .bg-circle:nth-child(1) { 
-            width: 300px; height: 300px; top: -100px; left: -100px; 
-            background: radial-gradient(circle, rgba(200, 16, 46, 0.1) 0%, transparent 70%);
-            animation-duration: 12s;
-        }
-        .bg-circle:nth-child(2) { 
-            width: 400px; height: 400px; bottom: -150px; right: -100px; 
-            background: radial-gradient(circle, rgba(43, 43, 138, 0.08) 0%, transparent 70%);
-            animation-duration: 18s;
-            animation-delay: -5s;
-        }
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(30px, 50px) scale(1.1); }
-        }
+body{font-family:'Noto Sans JP',sans-serif;background-color:var(--washi);background-image:linear-gradient(90deg,rgba(28,28,28,0.03) 1px,transparent 1px),linear-gradient(rgba(28,28,28,0.03) 1px,transparent 1px);background-size:30px 30px;color:var(--sumi);display:flex;min-height:100vh;line-height:1.8;position:relative;overflow-x:hidden}
+body::before{content:'';position:fixed;top:10%;right:-10%;width:600px;height:600px;background:var(--red);border-radius:50%;opacity:0.05;z-index:-1;pointer-events:none}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer;border:none;outline:none;background:transparent}
 
-        /* Delikatne pionowe linie (jak deszcz) */
-        .bg-lines { position: absolute; inset: 0; }
-        .bg-line {
-            position: absolute; top: -100px; width: 1px; height: 150px;
-            background: linear-gradient(to bottom, transparent, rgba(43, 43, 138, 0.1), transparent);
-            animation: fall linear infinite;
-        }
-        @keyframes fall {
-            to { transform: translateY(110vh); }
-        }
+/* EKRAN ŁADOWANIA - Ukrywa się sam przez CSS po 0.6s */
+#loader{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--washi);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;animation:autoHideLoader 0.1s ease 0.6s forwards}
+@keyframes autoHideLoader{to{opacity:0;visibility:hidden;display:none}}
+.loader-svg{width:100px;height:100px}
+.loader-enso{fill:none;stroke:var(--indigo);stroke-width:3;stroke-linecap:round;stroke-dasharray:251;stroke-dashoffset:251;animation:drawEnso 0.5s ease-in-out forwards}
+.loader-sun{fill:var(--red);transform-origin:center;animation:pulseSun 1s ease-in-out infinite alternate}
+.loader-text{font-family:'Noto Serif JP',serif;font-size:2rem;color:var(--sumi);margin-top:10px;letter-spacing:5px;font-weight:700}
+@keyframes drawEnso{to{stroke-dashoffset:0}}
+@keyframes pulseSun{0%{transform:scale(1)}100%{transform:scale(1.1)}}
 
-        /* --- KARTA --- */
-        .card { 
-            width: 100%; max-width: 440px; background: var(--surface); padding: 2.5rem 2rem; border-radius: var(--radius); 
-            box-shadow: var(--shadow-lg); border: 1px solid var(--border-color); position: relative; z-index: 1; 
-            display: flex; flex-direction: column; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-        }
+/* MENU BOCZNE */
+.sidebar{width:280px;background:var(--indigo);color:var(--washi);padding:30px 15px;display:flex;flex-direction:row-reverse;justify-content:space-between;border-left:4px solid var(--sumi);z-index:10}
+.logo-area{display:flex;flex-direction:column;align-items:center;border-right:1px solid rgba(252,249,242,0.2);padding-right:15px}
+.logo-area h1{font-family:'Noto Serif JP',serif;font-size:2.5rem;font-weight:700;writing-mode:vertical-rl;text-orientation:mixed;letter-spacing:5px}
+.hanko{width:15px;height:15px;background:var(--red);margin-top:20px;border-radius:2px}
+.nav{display:flex;flex-direction:row-reverse;gap:15px;align-items:flex-start;justify-content:center}
+.nav-btn{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:700;writing-mode:vertical-rl;text-orientation:mixed;letter-spacing:5px;color:rgba(252,249,242,0.6);padding:15px 10px;transition:0.3s;border-right:3px solid transparent;width:40px;text-align:center;text-transform:uppercase}
+.nav-btn.active{color:var(--red);border-right-color:var(--red)}
 
-        /* Animacje wejścia */
-        .animate-up { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-        .animate-up.visible { opacity: 1; transform: translateY(0); }
-        .card.animate-card { opacity: 0; transform: translateY(30px) scale(0.98); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-        .card.animate-card.visible { opacity: 1; transform: translateY(0) scale(1); }
+/* TREŚĆ */
+.main{flex:1;padding:50px;max-width:100%;z-index:1}
+.tab{display:none !important}
+.tab.active{display:block !important}
 
-        /* Pieczęć (Hanko) */
-        .seal {
-            position: absolute; top: 1.5rem; right: 1.5rem; width: 34px; height: 34px;
-            border: 2px solid var(--red); border-radius: 6px;
-            display: flex; align-items: center; justify-content: center;
-            transform: rotate(6deg); opacity: 0.85;
-        }
-        .seal::before { content: ''; width: 14px; height: 14px; background-color: var(--red); border-radius: 3px; transform: rotate(45deg); }
+h2.title{font-family:'Noto Serif JP',serif;font-size:2rem;font-weight:700;margin-bottom:25px;display:inline-block;position:relative}
+h2.title::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:var(--red)}
 
-        .logo-wrap { display: flex; justify-content: center; margin-bottom: 1.5rem; }
-        .logo { width: 100px; height: 100px; border-radius: 50%; background: var(--navy); position: relative; overflow: hidden; border: 3px solid var(--white); box-shadow: var(--shadow-sm); }
-        .logo-sun { position: absolute; top: 18%; left: 30%; width: 40px; height: 40px; background: var(--red); border-radius: 50%; }
-        .logo-bridge { position: absolute; bottom: 18%; left: 15%; width: 70px; height: 25px; border: 2px solid var(--white); border-bottom: none; border-radius: 50px 50px 0 0; }
-        .logo-water { position: absolute; bottom: 0; left: -5%; width: 110%; height: 30%; background: var(--white); }
+.header{display:flex;align-items:center;gap:25px;margin-bottom:35px}
+.avatar{width:110px;height:110px;background:var(--indigo);border-radius:50%;position:relative;overflow:hidden;border:3px solid var(--sumi);box-shadow:5px 5px 0 var(--red);flex-shrink:0}
+.avatar::after{content:'';position:absolute;top:20%;left:50%;transform:translateX(-50%);width:50px;height:50px;background:var(--red);border-radius:50%}
+.bio h2{font-family:'Noto Serif JP',serif;font-size:2rem;font-weight:700;color:var(--indigo)}
+.bio p{color:var(--muted);font-style:italic;font-weight:500}
+.status{display:inline-block;background:var(--red);color:var(--washi);padding:3px 12px;font-size:0.75rem;font-weight:700;margin-top:10px;border-radius:20px}
 
-        .brand { font-size: 2rem; font-weight: 800; color: var(--navy); text-align: center; letter-spacing: 6px; margin-bottom: 0.2rem; }
-        .tagline { font-size: 0.75rem; color: var(--red); text-align: center; text-transform: uppercase; letter-spacing: 4px; font-weight: 700; margin-bottom: 1.8rem; }
-        .description { font-size: 0.95rem; color: var(--text-muted); text-align: center; margin-bottom: 2rem; }
-        .description a { color: var(--text-main); font-weight: 600; text-decoration: none; border-bottom: 1px dashed var(--red); transition: var(--transition); }
-        .description a:hover { color: var(--red); border-bottom-style: solid; }
+.links{display:flex;flex-direction:column;gap:12px;max-width:500px}
+.link{display:flex;align-items:center;justify-content:space-between;background:var(--washi);border:2px solid var(--sumi);padding:12px 18px;font-weight:700;color:var(--sumi);box-shadow:3px 3px 0 rgba(28,28,28,0.1);transition:0.2s;cursor:pointer}
+.link:hover{border-color:var(--red);transform:translateX(3px)}
+.link .left{display:flex;align-items:center;gap:12px}
+.link i,.arch-svg{font-size:1.2rem;color:var(--indigo);width:1.2rem;height:1.2rem;fill:var(--indigo)}
+.link:hover i,.link:hover .arch-svg{color:var(--red);fill:var(--red)}
 
-        .links { display: flex; flex-direction: column; gap: 0.8rem; }
-        .link-btn { 
-            display: flex; align-items: center; padding: 1rem 1.2rem; text-decoration: none; 
-            background: #fcfcfc; border: 1px solid var(--border-color); border-radius: 8px; 
-            color: var(--text-main); font-weight: 600; font-size: 0.9rem; 
-            transition: var(--transition);
-        }
-        .link-btn:hover { background: #f4f6fa; border-color: #d0d5e0; transform: translateY(-2px); box-shadow: var(--shadow-sm); }
-        .link-icon { margin-right: 15px; font-size: 1.1rem; width: 24px; text-align: center; color: var(--text-main); }
-        .link-btn:hover .link-icon { color: var(--red); }
+.content p{color:var(--muted);margin-bottom:15px;max-width:700px;font-size:1rem}
+.content strong{color:var(--sumi);font-weight:700}
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.tag{background:var(--washi);border:1px solid var(--sumi);padding:6px 12px;font-size:0.85rem;font-weight:700;color:var(--sumi);display:flex;align-items:center;gap:8px;box-shadow:2px 2px 0 rgba(28,28,28,0.1)}
+.tag:hover{background:var(--sumi);color:var(--washi)}
 
-        .footer { margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color); text-align: center; }
-        .copyright { display: inline-block; font-size: 0.75rem; color: var(--text-muted); text-decoration: none; transition: var(--transition); line-height: 1.5; }
-        .copyright:hover { color: var(--navy); }
-        .copyright strong { display: block; color: var(--text-main); font-size: 0.85rem; margin-bottom: 2px; }
+.box{background:var(--washi);border:2px solid var(--sumi);padding:25px;max-width:500px;box-shadow:5px 5px 0 var(--indigo);position:relative}
+.box::after{content:'';position:absolute;top:15px;right:15px;width:15px;height:15px;background:var(--red);border-radius:2px}
+.box p{color:var(--muted);margin-bottom:20px}
+.discord{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #ccc;padding-top:15px}
+.discord strong{color:var(--red);display:block;font-size:0.8rem}
+.discord span{font-size:1.3rem;font-weight:700;color:var(--indigo);font-family:'Noto Serif JP',serif}
+.btn{background:var(--sumi);border:2px solid var(--sumi);color:var(--washi);padding:8px 15px;font-weight:700;display:flex;align-items:center;gap:8px;cursor:pointer}
+.btn:hover{background:transparent;color:var(--sumi)}
 
-        .cookie-banner { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(200%); width: calc(100% - 2rem); max-width: 500px; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 1.5rem; z-index: 9999; transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); border: 1px solid var(--border-color); }
-        .cookie-banner.show { transform: translateX(-50%) translateY(0); }
-        .cookie-text { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5; }
-        .cookie-text a { color: var(--navy); font-weight: 600; text-decoration: none; }
-        .cookie-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
-        .cookie-btn { padding: 0.8rem 1rem; border-radius: 8px; font-family: var(--font-main); font-weight: 600; font-size: 0.85rem; cursor: pointer; border: none; transition: var(--transition); flex: 1; text-align: center; }
-        .btn-accept { background: var(--navy); color: var(--white); }
-        .btn-accept:hover { background: var(--navy-light); }
-        .btn-necessary { background: #f0f0f0; color: var(--text-main); }
-        .btn-necessary:hover { background: #e0e0e0; }
+.legal h3{font-family:'Noto Serif JP',serif;color:var(--indigo);margin:25px 0 10px;font-size:1.2rem}
+.legal ul{padding-left:20px;color:var(--muted);margin-bottom:15px}
 
-        @media (max-width: 480px) { .card { padding: 2rem 1.5rem; } .brand { font-size: 1.8rem; letter-spacing: 4px; } .cookie-actions { flex-direction: column; } }
-    </style>
+/* TOAST I COOKIES */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:10px;z-index:9999;pointer-events:none}
+.t{background:var(--indigo);color:var(--washi);padding:10px 20px;box-shadow:4px 4px 0 var(--red);font-size:0.9rem;border:2px solid var(--sumi)}
+#cookies{position:fixed;bottom:15px;right:15px;width:320px;background:var(--washi);border:2px solid var(--sumi);padding:20px;box-shadow:5px 5px 0 var(--indigo);z-index:1000;display:none;flex-direction:column;gap:15px}
+#cookies p{font-size:0.85rem;color:var(--muted)}
+.c-btns{display:flex;gap:10px}
+.c-btn{padding:8px;font-weight:700;flex:1;border:2px solid transparent;cursor:pointer}
+.c-yes{background:var(--red);color:var(--washi);border-color:var(--red)}
+.c-no{background:transparent;border-color:var(--sumi);color:var(--sumi)}
+
+@media(max-width:850px){
+    body{flex-direction:column}
+    .sidebar{width:100%;flex-direction:column;border-left:none;border-bottom:4px solid var(--sumi);padding:15px}
+    .logo-area{flex-direction:row;border-right:none;border-bottom:1px solid rgba(252,249,242,0.2);padding-right:0;padding-bottom:10px;margin-bottom:10px;justify-content:center;gap:15px}
+    .logo-area h1{writing-mode:horizontal-tb;font-size:1.8rem;letter-spacing:2px}
+    .hanko{margin-top:0}
+    .nav{flex-direction:row;overflow-x:auto;justify-content:flex-start;width:100%}
+    .nav-btn{writing-mode:horizontal-tb;padding:10px 15px;width:auto;border-right:none;border-bottom:3px solid transparent;font-size:0.9rem}
+    .nav-btn.active{border-bottom-color:var(--red);border-right:none}
+    .main{padding:25px 15px}
+    .header{flex-direction:column;text-align:center}
+    #cookies{left:10px;right:10px;width:auto;bottom:10px}
+}
+</style>
 </head>
 <body>
-    <div class="bg-decor" aria-hidden="true">
-        <div class="bg-circle"></div>
-        <div class="bg-circle"></div>
-        <div class="bg-waves"></div>
-        <div class="bg-lines" id="bg-lines"></div>
+
+<!-- Ekran ładowania -->
+<div id="loader">
+    <svg class="loader-svg" viewBox="0 0 100 100">
+        <circle class="loader-enso" cx="50" cy="50" r="40"></circle>
+        <circle class="loader-sun" cx="50" cy="50" r="20"></circle>
+    </svg>
+    <div class="loader-text">aruyeq.</div>
+</div>
+
+<!-- Menu boczne -->
+<aside class="sidebar">
+    <div class="logo-area">
+        <h1>aruyeq.</h1>
+        <div class="hanko"></div>
     </div>
+    <div class="nav">
+        <button class="nav-btn active" onclick="showTab('home', this)">Home</button>
+        <button class="nav-btn" onclick="showTab('about', this)">About</button>
+        <button class="nav-btn" onclick="showTab('contact', this)">Contact</button>
+        <button class="nav-btn" onclick="showTab('legal', this)">Legal</button>
+    </div>
+</aside>
 
-    <main class="card animate-card" id="main-card">
-        <div class="seal"></div>
-        <div class="logo-wrap animate-up"><div class="logo" aria-hidden="true"><div class="logo-sun"></div><div class="logo-bridge"></div><div class="logo-water"></div></div></div>
-        <header class="animate-up"><h1 class="brand">ARUYEQ</h1><p class="tagline">"I use Arch btw"</p></header>
-        <section class="animate-up">
-            <p class="description">I create content about <a href="https://archlinux.org/" target="_blank" rel="noopener noreferrer">Arch Linux</a>, <a href="https://omarchy.org/" target="_blank" rel="noopener noreferrer">Omarchy</a> and <a href="https://hypr.land/" target="_blank" rel="noopener noreferrer">Hyprland</a> and system customisation.<br><br>Speed, style and complete control, rather than a slow, bloated Windows system.</p>
-            <nav class="links" aria-label="Social Media Links">
-                <a href="https://x.com/aruyeq" target="_blank" rel="noopener noreferrer" class="link-btn animate-up"><span class="link-icon">𝕏</span> X (Twitter)</a>
-                <a href="#" class="link-btn animate-up" onclick="copyDiscord(event)"><span class="link-icon">›</span> Discord: @aruyeq</a>
-                <a href="https://youtube.com/@aruyeq" target="_blank" rel="noopener noreferrer" class="link-btn animate-up"><span class="link-icon">▶</span> YouTube</a>
-                <a href="https://rumble.com/user/ArchDashX" target="_blank" rel="noopener noreferrer" class="link-btn animate-up"><span class="link-icon">▷</span> Rumble</a>
-                <a href="https://github.com/ArchDashX" target="_blank" rel="noopener noreferrer" class="link-btn animate-up"><span class="link-icon">⌥</span> GitHub</a>
-                <a href="https://steamcommunity.com/profiles/76561199828261881/" target="_blank" rel="noopener noreferrer" class="link-btn animate-up"><span class="link-icon">◈</span> Steam</a>
-                <a href="https://tiktok.com/@aruyeq" target="_blank" rel="noopener noreferrer" class="link-btn animate-up"><span class="link-icon">♪</span> TikTok</a>
-                <a href="https://www.roblox.com/pl/users/4366923635/profile" target="_blank" rel="noopener noreferrer" class="link-btn animate-up"><span class="link-icon">◆</span> Roblox</a>
-                <a href="https://medal.tv/u/aruyeq?invite=ur-MSxLdDcsNjYxNDQ1MTAx" target="_blank" rel="noopener noreferrer" class="link-btn animate-up"><span class="link-icon">▣</span> Medal.tv</a>
-            </nav>
-        </section>
-        <footer class="footer animate-up">
-            <a href="https://archdashx.github.io/aruyeq-regulamin/index.html" class="copyright"><strong>&copy; 2026 ARUYEQ.</strong>All rights reserved.<br><span>(Click to view Terms of Service)</span></a>
-        </footer>
-    </main>
-
-    <div class="cookie-banner" id="cookie-banner">
-        <div class="cookie-text">We use cookies to enhance your browsing experience. Read our <a href="https://archdashx.github.io/aruyeq-regulamin/index.html" target="_blank">Privacy Policy</a>.</div>
-        <div class="cookie-actions">
-            <button class="cookie-btn btn-accept" onclick="setCookies('all')">Accept All</button>
-            <button class="cookie-btn btn-necessary" onclick="setCookies('necessary')">Only Necessary</button>
+<!-- Główna treść -->
+<main class="main">
+    
+    <!-- HOME -->
+    <div id="home" class="tab active">
+        <div class="header">
+            <div class="avatar"></div>
+            <div class="bio">
+                <h2>Hi, I'm aruyeq.</h2>
+                <p>"I use Arch btw"</p>
+                <div class="status"><i class="fa-solid fa-circle" style="font-size:0.6rem;margin-right:5px"></i> Online</div>
+            </div>
+        </div>
+        <div class="links">
+            <!-- Discord kopiuje ID -->
+            <div class="link" onclick="copyText('aruyeq', this)">
+                <div class="left"><i class="fa-brands fa-discord"></i> Discord (@aruyeq)</div>
+                <i class="fa-regular fa-copy"></i>
+            </div>
+            <a href="https://x.com/aruyeq" target="_blank" class="link"><div class="left"><i class="fa-brands fa-x-twitter"></i> X (Twitter)</div><i class="fa-solid fa-arrow-right"></i></a>
+            <a href="https://youtube.com/@aruyeq" target="_blank" class="link"><div class="left"><i class="fa-brands fa-youtube"></i> YouTube</div><i class="fa-solid fa-arrow-right"></i></a>
+            <a href="https://github.com/aruyeq" target="_blank" class="link"><div class="left"><i class="fa-brands fa-github"></i> GitHub</div><i class="fa-solid fa-arrow-right"></i></a>
+            <a href="https://steamcommunity.com/profiles/76561199828261881/" target="_blank" class="link"><div class="left"><i class="fa-brands fa-steam"></i> Steam</div><i class="fa-solid fa-arrow-right"></i></a>
+            <a href="https://tiktok.com/@aruyeq" target="_blank" class="link"><div class="left"><i class="fa-brands fa-tiktok"></i> TikTok</div><i class="fa-solid fa-arrow-right"></i></a>
+            <a href="https://medal.tv/u/aruyeq" target="_blank" class="link"><div class="left"><i class="fa-solid fa-medal"></i> Medal.tv</div><i class="fa-solid fa-arrow-right"></i></a>
+            <a href="https://archlinux.org/" target="_blank" class="link"><div class="left"><svg class="arch-svg" viewBox="0 0 24 24"><path d="M12 0L6 9.5C3.8 13.2 1.8 17.2 0 21c1.8-.9 3.5-1.8 5.1-2.6.5 1.6 1.3 3.4 2.1 5.1 2.2-1.4 4.6-1.4 6.8 0 .8-1.7 1.6-3.5 2.1-5.1 1.6.8 3.3 1.7 5.1 2.6-1.8-3.8-3.8-7.8-6-11.5L12 0zm0 4.5l3 5.1c-1 .4-2 .7-3 1.1-1-.4-2-.7-3-1.1l3-5.1z"/></svg> Arch Linux</div><i class="fa-solid fa-arrow-right"></i></a>
+            <a href="https://omarchy.org/" target="_blank" class="link"><div class="left"><i class="fa-solid fa-terminal"></i> Omarchy</div><i class="fa-solid fa-arrow-right"></i></a>
+            <a href="https://hypr.land/" target="_blank" class="link"><div class="left"><i class="fa-solid fa-window-maximize"></i> Hyprland</div><i class="fa-solid fa-arrow-right"></i></a>
         </div>
     </div>
 
-    <script>
-        // Generowanie animowanych pionowych linii (deszcz)
-        const linesContainer = document.getElementById('bg-lines');
-        for (let i = 0; i < 20; i++) {
-            const line = document.createElement('div');
-            line.classList.add('bg-line');
-            line.style.left = Math.random() * 100 + '%';
-            line.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            line.style.animationDelay = Math.random() * 5 + 's';
-            line.style.opacity = Math.random() * 0.5 + 0.1;
-            linesContainer.appendChild(line);
+    <!-- ABOUT -->
+    <div id="about" class="tab">
+        <h2 class="title">About Me</h2>
+        <div class="content">
+            <p>Hey! My name is aruyeq. I am a content creator, an avid gamer, and an absolute enthusiast of <strong>Arch Linux</strong>. I love having complete control over my system, which is why I focus on minimalism, performance, and clean code.</p>
+            <p>On my social media, you will mostly find content related to desktop environment customization (mainly <strong>Hyprland</strong> and <strong>Omarchy</strong>), "ricing", and short clips from the games I am currently playing.</p>
+            <p>Besides spending time in the terminal, I am interested in tech news, computer hardware, and esports in general. I am always happy to help beginners in the Linux world!</p>
+            <div class="tags">
+                <a href="https://archlinux.org/" target="_blank" class="tag"><svg class="arch-svg" viewBox="0 0 24 24"><path d="M12 0L6 9.5C3.8 13.2 1.8 17.2 0 21c1.8-.9 3.5-1.8 5.1-2.6.5 1.6 1.3 3.4 2.1 5.1 2.2-1.4 4.6-1.4 6.8 0 .8-1.7 1.6-3.5 2.1-5.1 1.6.8 3.3 1.7 5.1 2.6-1.8-3.8-3.8-7.8-6-11.5L12 0zm0 4.5l3 5.1c-1 .4-2 .7-3 1.1-1-.4-2-.7-3-1.1l3-5.1z"/></svg> Arch Linux</a>
+                <a href="https://hypr.land/" target="_blank" class="tag"><i class="fa-solid fa-window-maximize"></i> Hyprland</a>
+                <a href="https://omarchy.org/" target="_blank" class="tag"><i class="fa-solid fa-terminal"></i> Omarchy</a>
+                <span class="tag">Bash</span>
+                <span class="tag">Gaming</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div id="contact" class="tab">
+        <h2 class="title">Contact Me</h2>
+        <div class="box">
+            <p>Got a question about Linux, want to discuss business collaborations, or just want to play some games? Reach out to me directly on Discord. This is the fastest and only way to get in touch with me.</p>
+            <div class="discord">
+                <div><strong>DISCORD</strong><span>aruyeq</span></div>
+                <button class="btn" onclick="copyText('aruyeq', this)"><i class="fa-regular fa-copy"></i> Copy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LEGAL -->
+    <div id="legal" class="tab">
+        <h2 class="title">Legal Information</h2>
+        <div class="content legal">
+            <h3>1. Privacy Policy & GDPR</h3>
+            <p><strong>Data Controller:</strong> The controller of your data is the creator of this website, aruyeq. For any data-related inquiries, you can contact me via Discord: <strong>aruyeq</strong>.</p>
+            <p><strong>Data Collection:</strong> This website acts strictly as a business card. It does not have a registration system, newsletter, or a user database. The contact form has been removed in favor of direct Discord contact. We only use <em>localStorage</em> to remember your cookie banner decision (Accept/Decline).</p>
+            <h3>2. Cookies & Local Storage</h3>
+            <p>This website uses essential cookies (localStorage) solely to remember that you have accepted the privacy policy. The website also uses external content providers (FontAwesome, Google Fonts) and external links (YouTube, X, Discord, etc.), which may use their own cookies once you click on a link and leave this site.</p>
+            <h3>3. Terms of Service</h3>
+            <ul>
+                <li>This website is for informational purposes only and represents the content creator "aruyeq".</li>
+                <li>All trademarks, graphics, and logos (including the Arch Linux logo, Hyprland logo, etc.) belong to their respective owners.</li>
+                <li>The author of this website is not responsible for the content posted on external platforms (YouTube, X, TikTok, etc.).</li>
+            </ul>
+            <h3>4. Accessibility Statement (WCAG)</h3>
+            <p>This website was designed with accessibility in mind. High text contrast, keyboard navigation, and semantic HTML tags have been implemented to make it easier for people with disabilities to use the site. If you encounter any accessibility issues, please reach out to me on Discord.</p>
+        </div>
+    </div>
+</main>
+
+<div id="toast"></div>
+
+<div id="cookies">
+    <p>This website uses local storage for technical purposes. By using this site, you agree to our <a href="#legal" onclick="document.getElementsByClassName('nav-btn')[3].click(); this.parentNode.parentNode.style.display='none'; return false;" style="color:var(--red);text-decoration:underline;font-weight:bold;">Privacy Policy</a>.</p>
+    <div class="c-btns">
+        <button class="c-btn c-yes" onclick="localStorage.setItem('aruyeq-consent','yes'); this.parentNode.parentNode.style.display='none'; showToast('Preference saved.');">Accept</button>
+        <button class="c-btn c-no" onclick="localStorage.setItem('aruyeq-consent','no'); this.parentNode.parentNode.style.display='none'; showToast('Only essential storage used.');">Decline</button>
+    </div>
+</div>
+
+<script>
+// Najprostszy możliwy skrypt (bez nowoczesnych funkcji)
+
+function showTab(id, btn) {
+    var tabs = document.getElementsByClassName('tab');
+    for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove('active');
+    }
+    
+    var target = document.getElementById(id);
+    if (target) {
+        target.classList.add('active');
+    }
+    
+    var btns = document.getElementsByClassName('nav-btn');
+    for (var j = 0; j < btns.length; j++) {
+        btns[j].classList.remove('active');
+    }
+    if (btn) {
+        btn.classList.add('active');
+    }
+    window.scrollTo(0, 0);
+}
+
+function showToast(msg) {
+    var box = document.getElementById('toast');
+    var t = document.createElement('div');
+    t.className = 't';
+    t.textContent = msg;
+    box.appendChild(t);
+    
+    setTimeout(function() {
+        t.style.transition = 'opacity 0.3s';
+        t.style.opacity = '0';
+        setTimeout(function() { t.parentNode.removeChild(t); }, 300);
+    }, 2500);
+}
+
+function copyText(text, btn) {
+    var orig = btn.innerHTML;
+    var success = function() {
+        showToast('Discord copied: ' + text);
+        if (btn.className.indexOf('btn') > -1) {
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+        } else {
+            btn.innerHTML = '<div class="left"><i class="fa-brands fa-discord"></i> Copied!</div><i class="fa-solid fa-check" style="color:var(--red)"></i>';
         }
+        setTimeout(function() { btn.innerHTML = orig; }, 1500);
+    };
 
-        // Animacja wejścia
-        document.addEventListener("DOMContentLoaded", () => {
-            const elements = document.querySelectorAll('.animate-up');
-            const card = document.getElementById('main-card');
-            
-            requestAnimationFrame(() => { card.classList.add('visible'); });
-
-            elements.forEach((el, index) => {
-                setTimeout(() => {
-                    el.classList.add('visible');
-                }, 200 + (index * 100));
-            });
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(success).catch(function() {
+            fallbackCopy(text, success);
         });
+    } else {
+        fallbackCopy(text, success);
+    }
+}
 
-        const CONSENT_KEY = 'aruyeq_cookie_consent';
-        
-        if (!localStorage.getItem(CONSENT_KEY)) {
-            setTimeout(() => { document.getElementById('cookie-banner').classList.add('show'); }, 1500);
-        }
+function fallbackCopy(text, callback) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); callback(); } catch(e) {}
+    ta.parentNode.removeChild(ta);
+}
 
-        function setCookies(type) {
-            localStorage.setItem(CONSENT_KEY, type);
-            document.getElementById('cookie-banner').classList.remove('show');
-        }
+// Pokaż cookies jeśli nie ma zapisu
+setTimeout(function() {
+    if (!localStorage.getItem('aruyeq-consent')) {
+        document.getElementById('cookies').style.display = 'flex';
+    }
+}, 1000);
+</script>
 
-        async function copyDiscord(e) {
-            e.preventDefault();
-            const btn = e.currentTarget;
-            if (!navigator.clipboard) return console.error('Clipboard API not supported');
-            try {
-                await navigator.clipboard.writeText('@aruyeq');
-                const originalHtml = btn.innerHTML;
-                btn.innerHTML = '<span class="link-icon" style="color: #2e7d32;">✓</span> Copied!';
-                setTimeout(() => { btn.innerHTML = originalHtml; }, 2000);
-            } catch (err) { console.error('Failed to copy text: ', err); }
-        }
-    </script>
 </body>
 </html>
