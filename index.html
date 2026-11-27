@@ -1,241 +1,642 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>aruyeq.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-:root {
---text-main: #1f1f1f;
---text-light: #6b7280;
---accent: #db2777;
---line: rgba(219, 39, 119, 0.15);
---bg-color: #fff5f8; 
-}
-* { 
-margin: 0; 
-padding: 0; 
-box-sizing: border-box; 
--webkit-tap-highlight-color: transparent; 
-}
-body {
-background-color: var(--bg-color);
-background-image: radial-gradient(circle at 50% 0%, #ffffff 0%, transparent 70%);
-color: var(--text-main);
-font-family: 'Inter', sans-serif;
-min-height: 100vh;
-display: flex;
-justify-content: center;
-align-items: center;
-padding: 40px 20px;
-position: relative;
-}
-.container {
-width: 100%;
-max-width: 380px;
-display: flex;
-flex-direction: column;
-align-items: center;
-animation: fadeIn 0.8s ease-out forwards;
-position: relative;
-z-index: 1;
-}
-@keyframes fadeIn {
-from { opacity: 0; transform: translateY(10px); }
-to { opacity: 1; transform: translateY(0); }
-}
-.polaroid {
-background: #ffffff;
-padding: 12px 12px 45px 12px;
-border-radius: 2px;
-box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-transform: rotate(-2deg);
-transition: transform 0.4s ease, box-shadow 0.4s ease;
-margin-bottom: 40px;
-width: 100%;
-position: relative;
-}
-.polaroid:hover {
-transform: rotate(0deg) scale(1.02);
-box-shadow: 0 18px 40px rgba(0, 0, 0, 0.1);
-}
-.polaroid img {
-width: 100%;
-height: 360px;
-object-fit: cover;
-object-position: center 20%;
-border-radius: 1px;
-}
-.polaroid::before {
-content: '';
-position: absolute;
-top: -8px;
-left: 50%;
-transform: translateX(-50%) rotate(1deg);
-width: 70px;
-height: 20px;
-background: rgba(255, 255, 255, 0.8);
-backdrop-filter: blur(3px);
-border: 1px solid rgba(0,0,0,0.04);
-z-index: 2;
-}
-.name {
-font-family: 'Caveat', cursive;
-font-size: 3.5rem;
-color: var(--accent);
-line-height: 1;
-margin-bottom: 5px;
-}
-.bio {
-font-size: 0.85rem;
-color: var(--text-light);
-margin-bottom: 40px;
-font-weight: 600;
-letter-spacing: 2.5px;
-text-transform: uppercase;
-}
-.links {
-width: 100%;
-display: flex;
-flex-direction: column;
-}
-.link-item {
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 18px 5px;
-text-decoration: none;
-color: var(--text-main);
-font-size: 1rem;
-font-weight: 500;
-border-bottom: 1px solid var(--line);
-transition: all 0.2s ease;
-cursor: pointer;
-background: transparent;
-border-top: none;
-border-left: none;
-border-right: none;
-width: 100%;
-font-family: inherit;
-}
-.link-item:last-child {
-border-bottom: none;
-}
-.link-left {
-display: flex;
-align-items: center;
-gap: 16px;
-}
-.link-left i {
-font-size: 1.2rem;
-color: var(--text-light);
-width: 20px;
-text-align: center;
-transition: color 0.2s ease;
-}
-.link-right i {
-font-size: 1rem;
-color: #d1d5db;
-transition: all 0.2s ease;
-}
-.link-item:hover {
-color: var(--accent);
-padding-left: 10px;
-}
-.link-item:hover .link-left i {
-color: var(--accent);
-}
-.link-item:hover .link-right i {
-color: var(--accent);
-transform: translateX(3px);
-}
-.toast {
-position: fixed;
-bottom: -60px;
-left: 50%;
-transform: translateX(-50%);
-background: var(--text-main);
-color: #ffffff;
-padding: 12px 24px;
-border-radius: 30px;
-font-size: 0.85rem;
-font-weight: 500;
-display: flex;
-align-items: center;
-gap: 8px;
-transition: bottom 0.3s ease;
-box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-z-index: 100;
-}
-.toast.show {
-bottom: 30px;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#fff5f8">
+  <meta name="description" content="aruyeq. — moje profile i linki">
+  <title>aruyeq.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --accent: #db2777;
+      --text: #1f1f1f;
+      --muted: #6b7280;
+      --line: rgba(219, 39, 119, 0.15);
+      --background: #fff5f8;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    html {
+      width: 100%;
+      min-height: 100%;
+      overflow-x: clip;
+      -webkit-text-size-adjust: 100%;
+    }
+    body {
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding:
+        max(24px, env(safe-area-inset-top))
+        max(16px, env(safe-area-inset-right))
+        max(24px, env(safe-area-inset-bottom))
+        max(16px, env(safe-area-inset-left));
+      overflow-x: clip;
+      background: var(--background);
+      color: var(--text);
+      font-family: 'Inter', Arial, sans-serif;
+    }
+    .bg-video-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .bg-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100vw;
+      height: 100vh;
+      min-width: 177.78vh;
+      min-height: 56.25vw;
+      transform: translate(-50%, -50%);
+      border: 0;
+    }
+    .bg-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(
+          circle at 50% 0%,
+          rgba(255, 245, 248, 0.55),
+          rgba(255, 245, 248, 0.88)
+        ),
+        rgba(255, 245, 248, 0.35);
+      backdrop-filter: blur(6px) saturate(1.1);
+      -webkit-backdrop-filter: blur(6px) saturate(1.1);
+      pointer-events: none;
+    }
+    .container {
+      width: 100%;
+      max-width: 380px;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: auto;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    .container.is-ready {
+      opacity: 1;
+    }
+    .polaroid {
+      width: 100%;
+      max-width: 100%;
+      padding: 12px 12px 45px;
+      margin-bottom: 40px;
+      background: #fff;
+      border-radius: 2px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      transform: rotate(-2deg);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      position: relative;
+    }
+    .polaroid::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%) rotate(1deg);
+      width: 70px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      z-index: 2;
+    }
+    .polaroid img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 1px;
+    }
+    .name {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(2.6rem, 12vw, 3.5rem);
+      line-height: 1;
+      margin-bottom: 5px;
+      color: var(--accent);
+      text-shadow: 0 1px 12px rgba(255, 255, 255, 0.6);
+      text-align: center;
+    }
+    .bio {
+      margin-bottom: 40px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .links {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      min-width: 0;
+    }
+    .link-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      min-width: 0;
+      min-height: 48px;
+      padding: 16px 5px;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      background: transparent;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: left;
+      text-decoration: none;
+      cursor: pointer;
+      transition: color 0.2s ease, padding 0.2s ease;
+    }
+    .link-item:last-child {
+      border-bottom: none;
+    }
+    .link-left {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      gap: 16px;
+    }
+    .link-left i {
+      width: 20px;
+      flex-shrink: 0;
+      color: var(--muted);
+      font-size: 1.2rem;
+      text-align: center;
+      transition: color 0.2s ease;
+    }
+    .link-right {
+      flex-shrink: 0;
+      color: #6b7280;
+      font-size: 1rem;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+    .link-item:hover,
+    .link-item:focus-visible {
+      color: var(--accent);
+      padding-left: 10px;
+    }
+    .link-item:hover .link-left i,
+    .link-item:focus-visible .link-left i {
+      color: var(--accent);
+    }
+    .link-item:hover .link-right,
+    .link-item:focus-visible .link-right {
+      color: var(--accent);
+      transform: translateX(3px);
+    }
+    .link-item:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(-70px - env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: calc(100vw - 32px);
+      padding: 12px 24px;
+      background: var(--text);
+      color: #fff;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      pointer-events: none;
+      transition: bottom 0.3s ease, opacity 0.3s ease;
+      z-index: 100;
+    }
+    .toast.show {
+      bottom: calc(30px + env(safe-area-inset-bottom));
+      opacity: 1;
+    }
+    #skeleton-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 16px;
+      background: var(--background);
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+    #skeleton-screen.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .skeleton-wrap {
+      width: 100%;
+      max-width: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .skeleton {
+      position: relative;
+      overflow: hidden;
+      background: #f3dbe4;
+      border-radius: 2px;
+    }
+    .skeleton::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translateX(-100%);
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.75),
+        transparent
+      );
+      animation: shimmer 1.2s infinite;
+    }
+    @keyframes shimmer {
+      100% {
+        transform: translateX(100%);
+      }
+    }
+    .sk-polaroid {
+      width: 100%;
+      padding: 12px 12px 45px;
+      margin-bottom: 40px;
+      background: #fff;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      transform: rotate(-2deg);
+    }
+    .sk-photo {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+    }
+    .sk-name {
+      width: 170px;
+      height: 48px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+    }
+    .sk-bio {
+      width: 150px;
+      height: 14px;
+      margin-bottom: 40px;
+      border-radius: 6px;
+    }
+    .sk-links {
+      width: 100%;
+    }
+    .sk-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 5px;
+      border-bottom: 1px solid var(--line);
+    }
+    .sk-link:last-child {
+      border-bottom: none;
+    }
+    .sk-link-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .sk-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+    }
+    .sk-text {
+      width: 90px;
+      height: 14px;
+      border-radius: 6px;
+    }
+    .sk-arrow {
+      width: 18px;
+      height: 14px;
+      border-radius: 4px;
+    }
+    @media (max-width: 600px) {
+      body {
+        align-items: flex-start;
+      }
+      .container,
+      .skeleton-wrap {
+        max-width: 380px;
+      }
+      .polaroid {
+        margin-bottom: 32px;
+      }
+      .bio {
+        margin-bottom: 32px;
+        font-size: clamp(0.7rem, 3vw, 0.85rem);
+        letter-spacing: 2px;
+      }
+      .link-item {
+        padding: 14px 5px;
+        font-size: 16px;
+      }
+    }
+    @media (max-width: 360px) {
+      body {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+      .polaroid {
+        padding: 8px 8px 32px;
+      }
+      .link-item {
+        padding: 12px 4px;
+        font-size: 14px;
+      }
+      .link-left {
+        gap: 8px;
+      }
+      .bio {
+        letter-spacing: 1.5px;
+      }
+    }
+    @media (min-width: 601px) and (max-width: 1024px) {
+      .container,
+      .skeleton-wrap {
+        max-width: 420px;
+      }
+    }
+    @media (min-width: 1025px) {
+      .container,
+      .skeleton-wrap {
+        max-width: 380px;
+      }
+    }
+    @media (hover: none) {
+      .polaroid:hover {
+        transform: rotate(-2deg);
+      }
+      .link-item:hover {
+        padding-left: 5px;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .bg-video-wrap {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-<div class="polaroid">
-<img src="image.png" alt="aruyeq">
-</div>
-<h1 class="name">aruyeq.</h1>
-<p class="bio">I use Arch btw</p>
-<div class="links">
-<div class="link-item" onclick="copyDiscord()">
-<div class="link-left">
-<i class="fa-brands fa-discord"></i>
-<span>Discord</span>
-</div>
-<i class="fa-regular fa-copy link-right"></i>
-</div>
-<a href="https://open.spotify.com/user/31nw32sqn4kegpgaqdyq2qqf4gxi" target="_blank" class="link-item">
-<div class="link-left">
-<i class="fa-brands fa-spotify"></i>
-<span>Spotify</span>
-</div>
-<i class="fa-solid fa-arrow-right link-right"></i>
-</a>
-<a href="https://github.com/aruyeq" target="_blank" class="link-item">
-<div class="link-left">
-<i class="fa-brands fa-github"></i>
-<span>GitHub</span>
-</div>
-<i class="fa-solid fa-arrow-right link-right"></i>
-</a>
-<a href="https://on.soundcloud.com/aG8L15HwOZUbc76N7Z" target="_blank" class="link-item">
-<div class="link-left">
-<i class="fa-brands fa-soundcloud"></i>
-<span>SoundCloud</span>
-</div>
-<i class="fa-solid fa-arrow-right link-right"></i>
-</a>
-<a href="https://youtube.com/@aruyeq" target="_blank" class="link-item">
-<div class="link-left">
-<i class="fa-brands fa-youtube"></i>
-<span>YouTube</span>
-</div>
-<i class="fa-solid fa-arrow-right link-right"></i>
-</a>
-</div>
-</div>
-<div class="toast" id="toast">
-<i class="fa-solid fa-check"></i> Skopiowano nick!
-</div>
-<script>
-function copyDiscord() {
-navigator.clipboard.writeText("aruyeq").then(() => {
-const toast = document.getElementById("toast");
-toast.classList.add("show");
-setTimeout(() => { 
-toast.classList.remove("show"); 
-}, 2000);
-}).catch(err => { 
-console.error('Błąd kopiowania: ', err); 
-});
-}
-</script>
+  <div class="bg-video-wrap" aria-hidden="true">
+    <iframe
+      id="bg-video"
+      class="bg-video"
+      src="https://www.youtube.com/embed/dAVSQ3ixa6c?autoplay=1&mute=1&loop=1&playlist=dAVSQ3ixa6c&controls=0&modestbranding=1&rel=0&playsinline=1&enablejsapi=1"
+      title="Tło wideo"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      tabindex="-1">
+    </iframe>
+  </div>
+  <div class="bg-overlay" aria-hidden="true"></div>
+
+  <div id="skeleton-screen" role="status" aria-label="Ładowanie strony">
+    <div class="skeleton-wrap">
+      <div class="sk-polaroid">
+        <div class="skeleton sk-photo"></div>
+      </div>
+      <div class="skeleton sk-name"></div>
+      <div class="skeleton sk-bio"></div>
+      <div class="sk-links">
+        <div class="sk-link">
+          <div class="sk-link-left">
+            <div class="skeleton sk-icon"></div>
+            <div class="skeleton sk-text"></div>
+          </div>
+          <div class="skeleton sk-arrow"></div>
+        </div>
+        <div class="sk-link">
+          <div class="sk-link-left">
+            <div class="skeleton sk-icon"></div>
+            <div class="skeleton sk-text"></div>
+          </div>
+          <div class="skeleton sk-arrow"></div>
+        </div>
+        <div class="sk-link">
+          <div class="sk-link-left">
+            <div class="skeleton sk-icon"></div>
+            <div class="skeleton sk-text"></div>
+          </div>
+          <div class="skeleton sk-arrow"></div>
+        </div>
+        <div class="sk-link">
+          <div class="sk-link-left">
+            <div class="skeleton sk-icon"></div>
+            <div class="skeleton sk-text"></div>
+          </div>
+          <div class="skeleton sk-arrow"></div>
+        </div>
+        <div class="sk-link">
+          <div class="sk-link-left">
+            <div class="skeleton sk-icon"></div>
+            <div class="skeleton sk-text"></div>
+          </div>
+          <div class="skeleton sk-arrow"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="container" id="main-content">
+    <div class="polaroid">
+      <img
+        src="image.png"
+        alt="Zdjęcie profilowe aruyeq"
+        fetchpriority="high">
+    </div>
+    <h1 class="name">aruyeq.</h1>
+    <p class="bio">I USE ARCH BTW</p>
+    <nav class="links" aria-label="Linki do profili">
+      <button
+        type="button"
+        class="link-item"
+        id="discord-button"
+        aria-label="Skopiuj nick Discord">
+        <span class="link-left">
+          <i class="fa-brands fa-discord" aria-hidden="true"></i>
+          <span>Discord</span>
+        </span>
+        <i class="fa-regular fa-copy link-right" aria-hidden="true"></i>
+      </button>
+      <a
+        href="https://open.spotify.com/user/31nw32sqn4kegpgaqdyq2qqf4gxi"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-item">
+        <span class="link-left">
+          <i class="fa-brands fa-spotify" aria-hidden="true"></i>
+          <span>Spotify</span>
+        </span>
+        <i class="fa-solid fa-arrow-right link-right" aria-hidden="true"></i>
+      </a>
+      <a
+        href="https://github.com/aruyeq"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-item">
+        <span class="link-left">
+          <i class="fa-brands fa-github" aria-hidden="true"></i>
+          <span>GitHub</span>
+        </span>
+        <i class="fa-solid fa-arrow-right link-right" aria-hidden="true"></i>
+      </a>
+      <a
+        href="https://on.soundcloud.com/aG8L15HwOZUbc76N7Z"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-item">
+        <span class="link-left">
+          <i class="fa-brands fa-soundcloud" aria-hidden="true"></i>
+          <span>SoundCloud</span>
+        </span>
+        <i class="fa-solid fa-arrow-right link-right" aria-hidden="true"></i>
+      </a>
+      <a
+        href="https://youtube.com/@aruyeq"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-item">
+        <span class="link-left">
+          <i class="fa-brands fa-youtube" aria-hidden="true"></i>
+          <span>YouTube</span>
+        </span>
+        <i class="fa-solid fa-arrow-right link-right" aria-hidden="true"></i>
+      </a>
+    </nav>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <i class="fa-solid fa-check" aria-hidden="true"></i>
+    Skopiowano nick!
+  </div>
+
+  <script>
+    (() => {
+      const skeleton = document.getElementById("skeleton-screen");
+      const main = document.getElementById("main-content");
+      const image = document.querySelector(".polaroid img");
+      const start = performance.now();
+      const minimumTime = 180;
+      const maximumTime = 1500;
+      let finished = false;
+
+      function reveal() {
+        if (finished) return;
+        finished = true;
+        const elapsed = performance.now() - start;
+        const wait = Math.max(0, minimumTime - elapsed);
+        setTimeout(() => {
+          main.classList.add("is-ready");
+          skeleton.classList.add("is-hidden");
+          setTimeout(() => skeleton.remove(), 300);
+        }, wait);
+      }
+
+      if (image.complete) {
+        reveal();
+      } else {
+        image.addEventListener("load", reveal, { once: true });
+        image.addEventListener("error", reveal, { once: true });
+      }
+
+      setTimeout(reveal, maximumTime);
+
+      window.addEventListener("pageshow", event => {
+        if (event.persisted) reveal();
+      });
+    })();
+
+    (() => {
+      const button = document.getElementById("discord-button");
+      const toast = document.getElementById("toast");
+      const discordName = "aruyeq";
+      let toastTimer;
+
+      function showToast() {
+        toast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2000);
+      }
+
+      async function copyDiscord() {
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(discordName);
+          } else {
+            const textarea = document.createElement("textarea");
+            textarea.value = discordName;
+            textarea.setAttribute("readonly", "");
+            textarea.style.position = "fixed";
+            textarea.style.opacity = "0";
+            document.body.appendChild(textarea);
+            textarea.select();
+            textarea.setSelectionRange(0, textarea.value.length);
+            const success = document.execCommand("copy");
+            textarea.remove();
+            if (!success) throw new Error("Copy failed");
+          }
+          showToast();
+        } catch (error) {
+          console.error(error);
+          toast.textContent = "Nie udało się skopiować nicku";
+          toast.classList.add("show");
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => {
+            toast.classList.remove("show");
+            toast.innerHTML =
+              '<i class="fa-solid fa-check" aria-hidden="true"></i> Skopiowano nick!';
+          }, 2000);
+        }
+      }
+
+      button.addEventListener("click", copyDiscord);
+    })();
+  </script>
 </body>
 </html>
